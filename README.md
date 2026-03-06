@@ -4,7 +4,7 @@
 
 [Live Site](https://devpick.co)
 
-![devpick](https://devpick.co/og/home.png)
+![devpick](screenshot.png)
 
 ## What is DevPick?
 
