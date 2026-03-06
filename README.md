@@ -38,33 +38,25 @@ DevPick helps developers choose between npm packages by providing side-by-side c
 
 ## Architecture
 
-```
-┌─ Nightly Pipeline (03:00 UTC daily) ─────────────────────────┐
-│                                                              │
-│ npm Registry + GitHub API + bundlejs/esbuild                 │
-│                     |                                        │
-│              Neon PostgreSQL                                  │
-│                     |                                        │
-│           Gemini 2.5 Flash Lite                              │
-│          (metric validation + retry)                         │
-│                     |                                        │
-│     Astro Static Build --> Cloudflare Pages                  │
-│                     |                                        │
-│               IndexNow API                                   │
-│                                                              │
-└──────────────────────────────────────────────────────────────┘
+**Nightly Pipeline** (03:00 UTC daily)
 
-┌─ Weekly Discovery (Monday 06:00 UTC) ────────────────────────┐
-│                                                              │
-│ npm search (38 categories x 2 terms)                         │
-│                     |                                        │
-│ 10-layer filter (deprecated, <10K/wk, vendor SDK)            │
-│                     |                                        │
-│ GPT-4.1 candidate scoring (0-100, min 70)                    │
-│                     |                                        │
-│ Auto-approve max 3/week --> git commit --> nightly            │
-│                                                              │
-└──────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    A[npm Registry + GitHub API + bundlejs/esbuild] --> B[(Neon PostgreSQL)]
+    B --> C[Gemini 2.5 Flash Lite\nmetric validation + retry]
+    C --> D[Astro Static Build\n681 pages in ~14s]
+    D --> E[Cloudflare Pages]
+    E --> F[IndexNow API]
+```
+
+**Weekly Discovery** (Monday 06:00 UTC)
+
+```mermaid
+flowchart TD
+    A[npm search\n38 categories x 2 terms] --> B[10-layer filter\ndeprecated / low downloads / vendor SDK]
+    B --> C[GPT-4.1 candidate scoring\n0-100, min 70 to pass]
+    C --> D[Auto-approve max 3/week]
+    D --> E[git commit --> nightly picks up]
 ```
 
 ## Notable Engineering Decisions
