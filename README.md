@@ -43,8 +43,8 @@ DevPick helps developers choose between npm packages by providing side-by-side c
 ```mermaid
 flowchart TD
     A[npm Registry + GitHub API + bundlejs/esbuild] --> B[(Neon PostgreSQL)]
-    B --> C[Gemini 2.5 Flash Lite\nmetric validation + retry]
-    C --> D[Astro Static Build\n681 pages in ~14s]
+    B --> C[Gemini 2.5 Flash Lite<br/>metric validation + retry]
+    C --> D[Astro Static Build<br/>681 pages in ~14s]
     D --> E[Cloudflare Pages]
     E --> F[IndexNow API]
 ```
@@ -53,8 +53,8 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    A[npm search\n38 categories x 2 terms] --> B[10-layer filter\ndeprecated / low downloads / vendor SDK]
-    B --> C[GPT-4.1 candidate scoring\n0-100, min 70 to pass]
+    A[npm search<br/>38 categories x 2 terms] --> B[10-layer filter<br/>deprecated / low downloads / vendor SDK]
+    B --> C[GPT-4.1 candidate scoring<br/>0-100, min 70 to pass]
     C --> D[Auto-approve max 3/week]
     D --> E[git commit --> nightly picks up]
 ```
