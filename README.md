@@ -39,32 +39,32 @@ DevPick helps developers choose between npm packages by providing side-by-side c
 ## Architecture
 
 ```
-┌─ Nightly Pipeline (03:00 UTC daily) ──────────────────────────┐
-│                                                                │
-│  npm Registry ──→ GitHub API ──→ bundlejs/esbuild fallback    │
-│       │                │                  │                    │
-│       └────────────────┴──────────────────┘                    │
-│                        │                                       │
-│                   Neon PostgreSQL                               │
-│                        │                                       │
-│              Gemini 2.5 Flash Lite                              │
-│           (metric validation + retry)                          │
-│                        │                                       │
-│              Astro Static Build ──→ Cloudflare Pages           │
-│                        │                                       │
-│                    IndexNow API                                │
-└────────────────────────────────────────────────────────────────┘
+┌─ Nightly Pipeline (03:00 UTC daily) ─────────────────────────┐
+│                                                              │
+│ npm Registry + GitHub API + bundlejs/esbuild                 │
+│                     |                                        │
+│              Neon PostgreSQL                                  │
+│                     |                                        │
+│           Gemini 2.5 Flash Lite                              │
+│          (metric validation + retry)                         │
+│                     |                                        │
+│     Astro Static Build --> Cloudflare Pages                  │
+│                     |                                        │
+│               IndexNow API                                   │
+│                                                              │
+└──────────────────────────────────────────────────────────────┘
 
-┌─ Weekly Discovery (Monday 06:00 UTC) ─────────────────────────┐
-│                                                                │
-│  npm search (38 categories × 2 terms)                          │
-│       │                                                        │
-│  10-layer filter (deprecated, <10K/wk, vendor SDK, etc.)       │
-│       │                                                        │
-│  GPT-4.1 candidate scoring (0-100, min 70)                     │
-│       │                                                        │
-│  Auto-approve max 3/week ──→ git commit ──→ nightly picks up   │
-└────────────────────────────────────────────────────────────────┘
+┌─ Weekly Discovery (Monday 06:00 UTC) ────────────────────────┐
+│                                                              │
+│ npm search (38 categories x 2 terms)                         │
+│                     |                                        │
+│ 10-layer filter (deprecated, <10K/wk, vendor SDK)            │
+│                     |                                        │
+│ GPT-4.1 candidate scoring (0-100, min 70)                    │
+│                     |                                        │
+│ Auto-approve max 3/week --> git commit --> nightly            │
+│                                                              │
+└──────────────────────────────────────────────────────────────┘
 ```
 
 ## Notable Engineering Decisions
