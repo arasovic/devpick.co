@@ -14,12 +14,12 @@ DevPick helps developers choose between npm packages by providing side-by-side c
 
 | Metric | Value |
 |--------|-------|
-| Tracked packages | 198 |
-| AI-generated comparisons | 433 |
+| Tracked packages | 205 |
+| AI-generated comparisons | 478 |
 | Categories | 45 |
-| Static pages | 681 |
-| Build time | ~14s (with OG cache) |
-| Full AI regeneration cost | ~$0.11 |
+| Static pages | 733 |
+| Build time | ~7s (with OG cache) |
+| Full AI regeneration cost | ~$0.12 |
 
 ## Tech Stack
 
@@ -44,7 +44,7 @@ DevPick helps developers choose between npm packages by providing side-by-side c
 flowchart TD
     A[npm Registry + GitHub API + bundlejs/esbuild] --> B[(Neon PostgreSQL)]
     B --> C[Gemini 2.5 Flash Lite<br/>metric validation + retry]
-    C --> D[Astro Static Build<br/>681 pages in ~14s]
+    C --> D[Astro Static Build<br/>733 pages in ~7s]
     D --> E[Cloudflare Pages]
     E --> F[IndexNow API]
 ```
@@ -65,9 +65,9 @@ flowchart TD
 - **Multi-tier AI routing**: High-profile packages (React, Vue, Tailwind) get enriched context injection. Evaluation uses a separate, more expensive model than content generation.
 - **4-tier bundle size fallback**: bundlejs API → bundlephobia → local esbuild (browser) → local esbuild (node) → node_modules install size. Never fails silently.
 - **AI metric validation**: Regex-based fact-checking layer catches hallucinated stats in AI output. Incorrect claims trigger a correction retry before saving.
-- **Content-hash OG cache**: Satori-generated PNG images are cached by content hash. Build time dropped from ~227s to ~14s.
+- **Content-hash OG cache**: Satori-generated PNG images are cached by content hash. Build time dropped from ~227s to ~7s.
 - **Budget guards**: $5/day for nightly pipeline, $1/day for weekly discovery. `BudgetExceededError` halts gracefully.
-- **Build-time query memoization**: `once()` wrapper reduces 77 DB queries to ~12 across 681 pages.
+- **Build-time query memoization**: `once()` wrapper reduces 77 DB queries to ~12 across 733 pages.
 
 ## Source Code
 
